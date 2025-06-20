@@ -1,0 +1,74 @@
+<div class="w-full">
+    @if (currentProject()) {
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-medium">{{ searchTerm() ? 'Search Results' : 'All Links' }}</h2>
+            <button
+                class="px-4 py-2 bg-blue-400 text-white border-none rounded text-sm cursor-pointer transition-colors hover:bg-blue-500"
+                (click)="toggleAddLink()">
+                {{ isAddingLink() ? 'Cancel' : 'Add Link' }}
+            </button>
+        </div>
+
+        @if (isAddingLink()) {
+            <div class="bg-gray-50 rounded-lg p-6 mb-8 shadow-sm">
+                <h3 class="mt-0 mb-4 text-xl font-medium">Add New Link</h3>
+                <div class="mb-4">
+                    <label for="linkName" class="block mb-2 text-sm font-medium">Name</label>
+                    <input type="text" id="linkName" #nameInput
+                        class="w-full p-3 border border-gray-300 rounded text-base focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200"
+                        placeholder="Enter link name">
+                </div>
+                <div class="mb-4">
+                    <label for="linkUrl" class="block mb-2 text-sm font-medium">URL</label>
+                    <input type="url" id="linkUrl" #urlInput
+                        class="w-full p-3 border border-gray-300 rounded text-base focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200"
+                        placeholder="https://example.com">
+                </div>
+                <div class="mb-4">
+                    <label for="linkTags" class="block mb-2 text-sm font-medium">Tags (comma separated)</label>
+                    <input type="text" id="linkTags" #tagsInput
+                        class="w-full p-3 border border-gray-300 rounded text-base focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200"
+                        placeholder="tag1, tag2, tag3">
+                </div>
+                <div class="flex justify-end gap-3 mt-6">
+                    <button
+                        class="px-5 py-2.5 bg-gray-100 text-gray-700 rounded text-base cursor-pointer hover:bg-gray-200"
+                        (click)="toggleAddLink()">Cancel</button>
+                    <button
+                        class="px-5 py-2.5 bg-blue-400 text-white rounded text-base cursor-pointer hover:bg-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                        (click)="addNewLink(nameInput.value, urlInput.value, tagsInput.value)"
+                        [disabled]="!nameInput?.value || !urlInput?.value">
+                        Save
+                    </button>
+                </div>
+            </div>
+        }
+
+        @if (displayLinks().length === 0) {
+            <div class="text-center py-12 px-4 bg-gray-50 rounded-lg">
+                @if (searchTerm()) {
+                    <p class="mb-6 text-gray-600 text-lg">No links match your search "{{ searchTerm() }}"</p>
+                    <button
+                        class="px-4 py-2 bg-gray-200 border-none rounded text-gray-700 text-sm cursor-pointer hover:bg-gray-300"
+                        (click)="clearSearch()">Clear Search</button>
+                } @else {
+                    <p class="mb-6 text-gray-600 text-lg">No links in this project yet. Add your first link!</p>
+                    <button
+                        class="px-4 py-2 bg-blue-400 text-white border-none rounded text-sm cursor-pointer hover:bg-blue-500"
+                        (click)="toggleAddLink()">Add Link</button>
+                }
+            </div> } @else {
+            <div
+                [class]="settings().listViewMode === 'compact' ? 'grid grid-cols-1 gap-3' : 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'">
+                @for (item of displayLinks(); track item.link.id) {
+                    <app-link-item [item]="item" [viewMode]="settings().listViewMode" [showMatchType]="!!searchTerm()"
+                        (onCopyToClipboard)="copyToClipboard($event.text, $event.element)" />
+                }
+            </div>
+        }
+    } @else {
+        <div class="text-center py-12 px-4 bg-gray-50 rounded-lg">
+            <p class="text-gray-600 text-lg">Please create or select a project to start adding links.</p>
+        </div>
+    }
+</div>

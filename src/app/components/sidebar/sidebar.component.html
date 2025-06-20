@@ -1,0 +1,51 @@
+<div class="h-full flex flex-col overflow-y-auto">
+    <h2 class="mb-6 text-2xl font-semibold text-slate-800">LinkMe</h2>
+
+    <div class="mb-6">
+        <div class="flex justify-between items-center mb-2">
+            <h3 class="text-lg font-medium">Projects</h3>
+            <button
+                class="w-6 h-6 rounded-full flex items-center justify-center transition-colors bg-gray-200 hover:bg-gray-300"
+                (click)="showAddProjectDialog()">
+                +
+            </button>
+        </div>
+
+        <div class="mt-2">
+            @for (project of projects(); track project.id) {
+                <div class="flex justify-between items-center p-2.5 rounded mb-1 cursor-pointer transition-colors"
+                    [class]="currentProject()?.id === project.id ? 'bg-blue-50 border-l-3 border-l-blue-400' : 'hover:bg-gray-100'"
+                    (click)="selectProject(project)" routerLink="home">
+                    <span
+                        class="text-sm whitespace-nowrap overflow-hidden text-ellipsis flex-1">{{ project.name }}</span>
+                    <button
+                        class="w-5 h-5 rounded-full bg-transparent text-gray-400 flex items-center justify-center ml-2 invisible group-hover:visible hover:text-red-500"
+                        (click)="deleteProject($event, project)">×</button>
+                </div>
+            } @empty {
+                <div class="text-gray-400 text-sm text-center py-4">No projects yet. Create your first project!</div>
+            }
+        </div>
+    </div>
+
+    @if (currentProject()) {
+        <div class="pt-2 border-t border-gray-200">
+            <h3 class="text-lg font-medium mb-2">{{ currentProject()!.name }}</h3>
+            @if (currentProject()!.description) {
+                <p class="text-sm text-gray-500">{{ currentProject()!.description }}</p>
+            }
+        </div>
+    }
+
+    <div class="mt-auto pt-4 border-t border-gray-200">
+        <button
+            class="flex items-center justify-center w-full p-2 text-gray-600 hover:bg-gray-100 rounded cursor-pointer"
+            routerLink="settings">
+            <i class="pi pi-cog mr-2"></i>
+            <span>Settings</span>
+        </button>
+    </div>
+</div>
+
+<app-add-project-dialog [visible]="addProjectDialogVisible()" (visibleChange)="addProjectDialogVisible.set($event)"
+    (save)="addProject($event)" />

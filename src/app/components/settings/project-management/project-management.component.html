@@ -1,0 +1,41 @@
+<div class="mb-4">
+    <h3 class="text-lg font-medium mb-3">Your Projects</h3>
+
+    @if (projects().length === 0) {
+        <div class="text-center py-6 text-gray-500">
+            <p>You don't have any projects yet.</p>
+            <p class="mt-2">Create your first project from the sidebar.</p>
+        </div>
+    } @else { <p-table [value]="projects()" styleClass="p-datatable-sm" [tableStyle]="{ 'min-width': '50rem' }">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Created</th>
+                    <th>Last Updated</th>
+                    <th style="width: 120px">Actions</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-project>
+                <tr>
+                    <td>{{ project.name }}</td>
+                    <td>{{ project.description || 'No description' }}</td>
+                    <td>{{ formatDate(project.createdAt) }}</td>
+                    <td>{{ formatDate(project.updatedAt) }}</td>
+                    <td>
+                        <div class="flex gap-2 justify-center"> <button pButton icon="pi pi-pencil"
+                                class="p-button-sm p-button-rounded p-button-text"
+                                (click)="handleEditProject(project)"></button>
+                            <button pButton icon="pi pi-trash"
+                                class="p-button-sm p-button-rounded p-button-text p-button-danger"
+                                (click)="handleDeleteProject(project)"></button>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </p-table>
+    }
+</div>
+
+<app-edit-project-dialog [visible]="projectDialogVisible()" (visibleChange)="projectDialogVisible.set($event)"
+    [project]="selectedProject()" (save)="saveProject($event)" />

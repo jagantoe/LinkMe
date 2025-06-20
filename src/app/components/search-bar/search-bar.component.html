@@ -1,0 +1,15 @@
+<div class="mb-6">
+    <div class="relative w-full">
+        <input type="text"
+            class="w-full py-3 px-4 pr-10 border border-gray-200 rounded-lg text-base transition-all focus:outline-none"
+            [style.borderColor]="searchTerm() ? settings().defaultTagColor : ''"
+            [style.boxShadow]="searchTerm() ? '0 0 0 2px ' + settings().defaultTagColor + '33' : ''"
+            placeholder="Search by name or tag..." [value]="searchTerm()" (input)="updateSearch($event)">
+
+        @if (searchTerm()) {
+            <button
+                class="absolute right-3 top-1/2 -translate-y-1/2 w-6 h-6 rounded-full bg-gray-200 flex items-center justify-center text-gray-700 hover:bg-gray-300 transition-colors"
+                (click)="clearSearch()">×</button>
+        }
+    </div>
+</div>

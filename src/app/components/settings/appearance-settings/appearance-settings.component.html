@@ -1,0 +1,17 @@
+<div class="mb-4">
+    <h3 class="text-lg font-medium mb-3">Appearance</h3>
+    <div class="flex justify-between items-center mb-4">
+        <label class="text-sm">Dark Mode</label>
+        <p-inputSwitch [ngModel]="settings().darkMode" (ngModelChange)="updateSetting('darkMode', $event)" />
+    </div>
+    <div class="flex justify-between items-center mb-4">
+        <label class="text-sm">Default Tag Color</label>
+        <p-colorPicker [ngModel]="settings().defaultTagColor"
+            (ngModelChange)="updateSetting('defaultTagColor', $event)" />
+    </div>
+    <div class="flex justify-between items-center">
+        <label class="text-sm">List View Mode</label>
+        <p-dropdown [options]="viewModeOptions" [ngModel]="settings().listViewMode"
+            (ngModelChange)="updateSetting('listViewMode', $event)" optionLabel="label" optionValue="value" />
+    </div>
+</div>
