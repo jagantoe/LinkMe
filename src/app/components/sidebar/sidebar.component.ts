@@ -1,42 +1,43 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ConfirmationService } from 'primeng/api';
-import { Project } from '../../models/link.model';
+import { BaseProject, Project } from '../../models/link.model';
+import { DialogService } from '../../services/dialog.service';
 import { ProjectService } from '../../services/project.service';
 
 // PrimeNG
 import { ButtonModule } from 'primeng/button';
 
-// Components
-import { AddProjectDialogComponent } from './add-project-dialog/add-project-dialog.component';
-
 @Component({
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule, RouterLink, ButtonModule, AddProjectDialogComponent],
-    providers: [ConfirmationService]
+    imports: [CommonModule, RouterLink, ButtonModule],
 })
 export class SidebarComponent {
     private readonly projectService = inject(ProjectService);
-    private readonly confirmationService = inject(ConfirmationService);
+    private readonly dialogService = inject(DialogService);
 
     readonly projects = this.projectService.projects;
     readonly currentProject = this.projectService.currentProject;
-    readonly addProjectDialogVisible = signal(false);
+
+    // Setup an output event to communicate with the parent component
+    readonly closeSidebar = output<void>();
 
     showAddProjectDialog(): void {
-        this.addProjectDialogVisible.set(true);
+        this.dialogService.openProjectDialog(
+            'Add New Project',
+            null,
+            (projectData) => this.addProject(projectData)
+        );
     }
 
-    addProject(projectData: { name: string, description: string }): void {
+    addProject(projectData: BaseProject): void {
         if (projectData.name.trim()) {
             this.projectService.createProject(
                 projectData.name,
                 projectData.description
             );
-            this.addProjectDialogVisible.set(false);
         }
     }
 
@@ -44,15 +45,13 @@ export class SidebarComponent {
         this.projectService.setCurrentProject(project);
     }
 
-    deleteProject(event: Event, project: Project): void {
-        event.stopPropagation();
-        this.confirmationService.confirm({
-            message: `Are you sure you want to delete the project "${project.name}"? This will permanently delete all links associated with this project.`,
-            header: 'Delete Project',
-            icon: 'pi pi-exclamation-triangle',
-            accept: () => {
-                this.projectService.deleteProject(project.id);
-            }
-        });
+    // Close sidebar on mobile when a project is selected
+    onMobileProjectSelect(): void {
+        this.closeSidebar.emit();
+    }
+
+    // Close sidebar on mobile when a menu item is clicked
+    onMobileMenuClick(): void {
+        this.closeSidebar.emit();
     }
 }

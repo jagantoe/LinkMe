@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ConfirmationService } from 'primeng/api';
-import { Project } from '../../../models/link.model';
+import { BaseProject, Project } from '../../../models/link.model';
+import { DialogService } from '../../../services/dialog.service';
 import { ProjectService } from '../../../services/project.service';
 
 // PrimeNG Imports
@@ -9,38 +10,40 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TableModule } from 'primeng/table';
-import { EditProjectDialogComponent } from '../edit-project-dialog/edit-project-dialog.component';
 
 @Component({
     selector: 'app-project-management',
     templateUrl: './project-management.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush, imports: [
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
         CommonModule,
         ButtonModule,
         CardModule,
         TableModule,
-        ConfirmDialogModule,
-        EditProjectDialogComponent
+        ConfirmDialogModule
     ],
 })
 export class ProjectManagementComponent {
     private readonly projectService = inject(ProjectService);
     private readonly confirmationService = inject(ConfirmationService);
+    private readonly dialogService = inject(DialogService);
 
     readonly projects = this.projectService.projects;
-
-    // Dialog control
-    readonly projectDialogVisible = signal(false);
-    // Edit project state
-    readonly selectedProject = signal<Project | null>(null);
 
     formatDate(date: Date): string {
         return this.projectService.formatDate(date);
     }
 
+    handleAddProject(): void {
+        this.dialogService.openProjectDialog('Create Project', null, (projectData) => {
+            this.saveProject(projectData);
+        });
+    }
+
     handleEditProject(project: Project): void {
-        this.selectedProject.set(project);
-        this.projectDialogVisible.set(true);
+        this.dialogService.openProjectDialog('Edit Project', project, (projectData) => {
+            this.saveEditedProject(project, projectData);
+        });
     }
 
     handleDeleteProject(project: Project): void {
@@ -54,19 +57,23 @@ export class ProjectManagementComponent {
         });
     }
 
-    saveProject(projectData: { name: string, description: string }): void {
-        if (!this.selectedProject()) {
-            return;
-        }
+    private saveProject(projectData: BaseProject): void {
+        // Create new project
+        this.projectService.createProject(
+            projectData.name,
+            projectData.description
+        );
+    }
 
+    private saveEditedProject(originalProject: Project, projectData: BaseProject): void {
+        // Edit existing project
         const updatedProject: Project = {
-            ...this.selectedProject()!,
-            name: projectData.name.trim(),
-            description: projectData.description.trim() || undefined,
+            ...originalProject,
+            name: projectData.name,
+            description: projectData.description,
             updatedAt: new Date()
         };
 
         this.projectService.updateProject(updatedProject);
-        this.projectDialogVisible.set(false);
     }
 }

@@ -1,12 +1,12 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { Link } from '../models/link.model';
-import { fuzzyMatch } from '../utils/search.utils';
+import { fuzzyMatch, MatchType } from '../utils/search.utils';
 import { LinkStorageService } from './link-storage.service';
 
 export interface SearchResult {
     link: Link;
     score: number;
-    matchType: 'name' | 'tag' | 'both';
+    matchType: MatchType;
 }
 
 @Injectable({
@@ -40,7 +40,7 @@ export class SearchService {
             }
 
             // Determine match type
-            let matchType: 'name' | 'tag' | 'both' = 'name';
+            let matchType: MatchType = 'name';
             if (nameScore > 0 && hasTagMatch) {
                 matchType = 'both';
             } else if (nameScore === 0 && hasTagMatch) {
@@ -64,6 +64,7 @@ export class SearchService {
     setSearchTerm(term: string): void {
         this.searchTermSignal.set(term);
     }
+
     clearSearch(): void {
         this.searchTermSignal.set('');
     }

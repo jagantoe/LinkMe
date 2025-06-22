@@ -37,5 +37,13 @@
 # Components
 - Use components from the NgPrime library for UI elements
 
-# Errors
-- If you ever get stuck don't create a new file, instead ask for help.
+## Error Handling
+- NEVER create new files with extensions like `.new` or `.backup` when troubleshooting
+- If editing a file becomes problematic, use smaller, incremental changes instead
+- Always edit existing files directly using the appropriate editing tools
+- When a file has syntax errors, use `replace_string_in_file` to fix the entire content if needed
+- If you get stuck, ask for help rather than creating alternative versions of files
+
+## Deleting files
+- NEVER request to delete files unless explicitly instructed
+- If a file is no longer needed add a comment in all caps to the top of the file indicating that it should be deleted

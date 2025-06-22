@@ -1,7 +1,7 @@
-<div class="mb-6">
+<div class="mb-4 sm:mb-6">
     <div class="relative w-full">
         <input type="text"
-            class="w-full py-3 px-4 pr-10 border border-gray-200 rounded-lg text-base transition-all focus:outline-none"
+            class="w-full py-2.5 sm:py-3 px-3 sm:px-4 pr-10 border border-gray-200 rounded-lg text-base transition-all focus:outline-none"
             [style.borderColor]="searchTerm() ? settings().defaultTagColor : ''"
             [style.boxShadow]="searchTerm() ? '0 0 0 2px ' + settings().defaultTagColor + '33' : ''"
             placeholder="Search by name or tag..." [value]="searchTerm()" (input)="updateSearch($event)">

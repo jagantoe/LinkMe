@@ -1,4 +1,13 @@
 /**
+ * Represents the type of match for search results.
+ * - 'name': Match found in the link name
+ * - 'tag': Match found in the link tags
+ * - 'both': Match found in both name and tags
+ */
+export type MatchType = 'name' | 'tag' | 'both';
+
+
+/**
  * Calculates the Levenshtein distance between two strings
  * @param a First string
  * @param b Second string

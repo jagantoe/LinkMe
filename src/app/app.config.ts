@@ -3,6 +3,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 
+import { MessageService } from 'primeng/api';
 import { routes } from './app.routes';
 import { Noir } from './theme';
 
@@ -19,6 +20,7 @@ export const appConfig: ApplicationConfig = {
           darkModeSelector: '.my-app-dark'
         }
       }
-    })
+    }),
+    MessageService,
   ]
 };

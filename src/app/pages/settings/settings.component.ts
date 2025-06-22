@@ -4,17 +4,18 @@ import { NotificationService } from '../../services/notification.service';
 import { SettingsService } from '../../services/settings.service';
 
 // PrimeNG Imports
-import { AccordionModule } from 'primeng/accordion';
 import { ConfirmationService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DividerModule } from 'primeng/divider';
+import { TabsModule } from 'primeng/tabs';
 
 // Component Imports
-import { AppearanceSettingsComponent } from './appearance-settings/appearance-settings.component';
-import { BehaviorSettingsComponent } from './behavior-settings/behavior-settings.component';
-import { ProjectManagementComponent } from './project-management/project-management.component';
+import { RouterLink } from '@angular/router';
+import { AppearanceSettingsComponent } from '../../components/settings/appearance-settings/appearance-settings.component';
+import { BehaviorSettingsComponent } from '../../components/settings/behavior-settings/behavior-settings.component';
+import { ProjectManagementComponent } from '../../components/settings/project-management/project-management.component';
 
 @Component({
     selector: 'app-settings',
@@ -25,19 +26,17 @@ import { ProjectManagementComponent } from './project-management/project-managem
         CardModule,
         DividerModule,
         ConfirmDialogModule,
-        AccordionModule,
+        TabsModule,
         AppearanceSettingsComponent,
         BehaviorSettingsComponent,
-        ProjectManagementComponent
+        ProjectManagementComponent,
+        RouterLink
     ],
-    providers: [ConfirmationService]
 })
 export class SettingsComponent {
     private readonly settingsService = inject(SettingsService);
     private readonly confirmationService = inject(ConfirmationService);
     private readonly notificationService = inject(NotificationService);
-
-    readonly settings = this.settingsService.settings;
 
     resetSettings(): void {
         this.confirmationService.confirm({

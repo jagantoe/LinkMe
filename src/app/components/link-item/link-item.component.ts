@@ -1,30 +1,26 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, input, output, signal } from '@angular/core';
-import { Link } from '../../models/link.model';
-import { AppSettings } from '../../models/settings.model';
+import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
+import { BaseLink, Link } from '../../models/link.model';
 import { LinkStorageService } from '../../services/link-storage.service';
 import { SettingsService } from '../../services/settings.service';
 import { copyToClipboard } from '../../utils/clipboard.utils';
-import { Tags } from '../../utils/tags.utils';
+import { MatchType } from '../../utils/search.utils';
+import { LinkFormComponent } from '../link-form/link-form.component';
 
 @Component({
     selector: 'app-link-item',
     templateUrl: './link-item.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule]
+    imports: [CommonModule, LinkFormComponent]
 })
 export class LinkItemComponent {
     private readonly linkStorage = inject(LinkStorageService);
     private readonly settingsService = inject(SettingsService);
-
-    readonly item = input.required<{ link: Link, score: number, matchType: string }>();
-    readonly viewMode = input.required<AppSettings['listViewMode']>();
+    readonly link = input.required<Link>();
+    readonly score = input<number>(0);
+    readonly matchType = input<MatchType>('name');
     readonly showMatchType = input<boolean>(false);
     readonly settings = this.settingsService.settings; readonly isEditing = signal(false);
-    readonly onCopyToClipboard = output<{ text: string, element: HTMLElement }>();
-
-    // Expose utility functions to the template
-    readonly formatTags = Tags.format;
 
     copyToClipboard(text: string, element: HTMLElement): void {
         copyToClipboard(text, element);
@@ -39,20 +35,18 @@ export class LinkItemComponent {
     }
 
     deleteLink(): void {
-        this.linkStorage.deleteLink(this.item().link.id);
-    } saveEditedLink(nameInput: HTMLInputElement, urlInput: HTMLInputElement, tagsInput: HTMLInputElement): void {
-        if (nameInput.value && urlInput.value) {
-            const tags = Tags.parse(tagsInput.value);
+        this.linkStorage.deleteLink(this.link().id);
+    }
 
-            const updatedLink: Link = {
-                ...this.item().link,
-                name: nameInput.value,
-                url: urlInput.value,
-                tags
-            };
+    saveEditedLink(formData: BaseLink): void {
+        const updatedLink: Link = {
+            ...this.link(),
+            name: formData.name,
+            url: formData.url,
+            tags: formData.tags
+        };
 
-            this.linkStorage.updateLink(updatedLink);
-            this.isEditing.set(false);
-        }
+        this.linkStorage.updateLink(updatedLink);
+        this.isEditing.set(false);
     }
 }

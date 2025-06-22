@@ -6,7 +6,10 @@ import { Link, Project } from '../models/link.model';
 })
 export class LinkStorageService {
     private readonly PROJECTS_KEY = 'linkme_projects';
-    private readonly LINKS_KEY_PREFIX = 'linkme_links_'; private readonly projectsSignal = signal<Project[]>([]);
+    private readonly LINKS_KEY_PREFIX = 'linkme_links_';
+    private readonly CURRENT_PROJECT_ID_KEY = 'linkme_current_project_id';
+
+    private readonly projectsSignal = signal<Project[]>([]);
     private readonly currentProjectSignal = signal<Project | null>(null);
     private readonly linksSignal = signal<Link[]>([]);
 
@@ -17,9 +20,18 @@ export class LinkStorageService {
     constructor() {
         this.loadProjects();
 
-        // Load the first project by default if any exist
-        if (this.projects().length > 0) {
-            this.setCurrentProject(this.projects()[0]);
+        // Restore current project from storage if possible
+        const savedProjectId = localStorage.getItem(this.CURRENT_PROJECT_ID_KEY);
+        const projects = this.projects();
+        if (savedProjectId && projects.length > 0) {
+            const found = projects.find(p => p.id === savedProjectId);
+            if (found) {
+                this.setCurrentProject(found);
+            } else {
+                this.setCurrentProject(projects[0]);
+            }
+        } else if (projects.length > 0) {
+            this.setCurrentProject(projects[0]);
         }
     }
 
@@ -98,6 +110,7 @@ export class LinkStorageService {
 
     setCurrentProject(project: Project): void {
         this.currentProjectSignal.set(project);
+        localStorage.setItem(this.CURRENT_PROJECT_ID_KEY, project.id);
         this.loadLinksForProject(project.id);
     }
 

@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { LinkListComponent } from '../link-list/link-list.component';
-import { SearchBarComponent } from '../search-bar/search-bar.component';
+import { LinkListComponent } from '../../components/link-list/link-list.component';
+import { SearchBarComponent } from '../../components/search-bar/search-bar.component';
 
 @Component({
     selector: 'app-home',
@@ -9,5 +9,4 @@ import { SearchBarComponent } from '../search-bar/search-bar.component';
     imports: [SearchBarComponent, LinkListComponent]
 })
 export class HomeComponent {
-    // Home component logic can be added here if needed
 }

@@ -1,0 +1,39 @@
+<div class="p-3 sm:p-4 max-w-4xl mx-auto">
+    <!-- Header with back button and title -->
+    <div class="flex items-center justify-between mb-4 sm:mb-6">
+        <h2 class="text-xl sm:text-2xl font-semibold">Settings</h2>
+        <p-button icon="pi pi-arrow-left" label="Back" routerLink="/home" severity="secondary"></p-button>
+    </div>
+
+    <p-tabs value="projects">
+        <p-tablist class="overflow-x-auto flex whitespace-nowrap">
+            <p-tab value="projects">Projects</p-tab>
+            <p-tab value="appearance">Appearance</p-tab>
+            <p-tab value="behavior">Behavior</p-tab>
+        </p-tablist>
+
+        <p-tabpanels>
+            <p-tabpanel value="projects">
+                <div class="p-2 sm:p-3">
+                    <app-project-management />
+                </div>
+            </p-tabpanel>
+
+            <p-tabpanel value="appearance">
+                <div class="p-2 sm:p-3">
+                    <app-appearance-settings />
+                </div>
+            </p-tabpanel>
+
+            <p-tabpanel value="behavior">
+                <div class="p-2 sm:p-3">
+                    <app-behavior-settings />
+                </div>
+            </p-tabpanel>
+        </p-tabpanels>
+    </p-tabs>
+
+    <div class="flex justify-center mt-4 sm:mt-6">
+        <p-button label="Reset to Defaults" severity="danger" (onClick)="resetSettings()"></p-button>
+    </div>
+</div>
