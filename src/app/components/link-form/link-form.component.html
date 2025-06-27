@@ -1,40 +1,43 @@
 <div
-    [class]="isEditMode() ? 'w-full' : 'bg-white rounded-lg shadow-md p-4 sm:p-5 transition-all hover:shadow-lg mb-3 w-full'">
-    <h3 class="text-base sm:text-lg font-medium text-gray-900 m-0 mb-3">
+    [class]="isEditMode() ? 'w-full' : 'bg-surface-0 dark:bg-surface-800 rounded-lg shadow-md p-4 sm:p-5 transition-all hover:shadow-lg mb-3 w-full'">
+    <h3 class="text-base sm:text-lg font-medium text-surface-900 dark:text-surface-50 m-0 mb-3">
         {{ formTitle() }}
     </h3>
 
     <div class="mb-3">
-        <label [attr.for]="'name-' + linkId()" class="block mb-1.5 sm:mb-2 text-sm font-medium">Name</label>
+        <label [attr.for]="'name-' + linkId()"
+            class="block mb-1.5 sm:mb-2 text-sm font-medium text-surface-800 dark:text-surface-200">Name</label>
         <input type="text" [id]="'name-' + linkId()" [(ngModel)]="name"
-            class="w-full p-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200"
+            class="w-full p-2 border border-surface-300 dark:border-surface-600 rounded text-sm bg-surface-0 dark:bg-surface-700 text-surface-900 dark:text-surface-100 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800"
             placeholder="Enter link name">
     </div>
 
     <div class="mb-3">
-        <label [attr.for]="'url-' + linkId()" class="block mb-1.5 sm:mb-2 text-sm font-medium">URL</label>
+        <label [attr.for]="'url-' + linkId()"
+            class="block mb-1.5 sm:mb-2 text-sm font-medium text-surface-800 dark:text-surface-200">URL</label>
         <input type="url" [id]="'url-' + linkId()" [(ngModel)]="url"
-            class="w-full p-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200"
+            class="w-full p-2 border border-surface-300 dark:border-surface-600 rounded text-sm bg-surface-0 dark:bg-surface-700 text-surface-900 dark:text-surface-100 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800"
             placeholder="https://example.com">
     </div>
 
     <div class="mb-3">
-        <label [attr.for]="'tags-' + linkId()" class="block mb-1.5 sm:mb-2 text-sm font-medium">
+        <label [attr.for]="'tags-' + linkId()"
+            class="block mb-1.5 sm:mb-2 text-sm font-medium text-surface-800 dark:text-surface-200">
             Tags
         </label>
         <input type="text" [id]="'tags-' + linkId()" [(ngModel)]="tags"
-            class="w-full p-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-200"
+            class="w-full p-2 border border-surface-300 dark:border-surface-600 rounded text-sm bg-surface-0 dark:bg-surface-700 text-surface-900 dark:text-surface-100 focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary-200 dark:focus:ring-primary-800"
             placeholder="tag1, tag2, tag3">
     </div>
 
     <div class="flex flex-col sm:flex-row sm:justify-end gap-2 mt-4">
         <button
-            class="px-3 py-1.5 bg-gray-100 text-gray-700 rounded text-sm cursor-pointer hover:bg-gray-200 order-2 sm:order-1"
+            class="px-3 py-1.5 bg-surface-100 dark:bg-surface-700 text-surface-700 dark:text-surface-200 rounded text-sm cursor-pointer hover:bg-surface-200 dark:hover:bg-surface-600 order-2 sm:order-1"
             (click)="cancel()">
             Cancel
         </button>
         <button
-            class="px-3 py-1.5 bg-blue-400 text-white rounded text-sm cursor-pointer hover:bg-blue-500 disabled:bg-gray-400 disabled:cursor-not-allowed order-1 sm:order-2"
+            class="px-3 py-1.5 bg-primary text-primary-contrast rounded text-sm cursor-pointer hover:bg-primary-emphasis disabled:bg-surface-400 dark:disabled:bg-surface-600 disabled:cursor-not-allowed order-1 sm:order-2"
             (click)="submitForm()" [disabled]="!isFormValid()">
             Save
         </button>

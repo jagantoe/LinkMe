@@ -1,13 +1,13 @@
-<p-dialog [visible]="visible()" [header]="dialogTitle()" [modal]="true" [style]="{ width: '450px' }"
-    (visibleChange)="closeDialog()">
+<p-dialog [visible]="visible()" [header]="dialogTitle()" [modal]="true" [draggable]="false" [resizable]="false"
+    [style]="{ width: '450px' }" (visibleChange)="closeDialog()">
     <div class="flex flex-col gap-4 p-4">
         <div class="field">
-            <label for="name" class="block mb-2">Project Name*</label>
+            <label for="name" class="block mb-2 text-surface-800 dark:text-surface-100">Project Name*</label>
             <input id="name" type="text" pInputText [(ngModel)]="name" class="w-full" placeholder="Enter project name">
         </div>
         <div class="field">
-            <label for="description" class="block mb-2">Description</label>
-            <textarea id="description" pInputTextarea [(ngModel)]="description" class="w-full" rows="5"
+            <label for="description" class="block mb-2 text-surface-800 dark:text-surface-100">Description</label>
+            <textarea id="description" pTextarea [(ngModel)]="description" class="w-full" rows="5"
                 placeholder="Enter project description (optional)"></textarea>
         </div>
     </div>

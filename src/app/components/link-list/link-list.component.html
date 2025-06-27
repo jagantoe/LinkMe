@@ -1,27 +1,30 @@
 <div class="w-full">
     @if (currentProject()) {
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-6">
-            <h2 class="text-xl sm:text-2xl font-medium">{{ searchTerm() ? 'Search Results' : 'All Links' }}</h2>
+            <h2 class="text-xl sm:text-2xl font-medium text-surface-800 dark:text-surface-100">
+                {{ searchTerm() ? 'Search Results' : 'All Links' }}</h2>
             <button
-                class="px-4 py-2 bg-blue-400 text-white border-none rounded text-sm cursor-pointer transition-colors hover:bg-blue-500 w-full sm:w-auto"
+                class="px-4 py-2 bg-primary text-primary-contrast border-none rounded text-sm cursor-pointer transition-colors hover:bg-primary-emphasis w-full sm:w-auto"
                 (click)="toggleAddLink()">
                 {{ isAddingLink() ? 'Cancel' : 'Add Link' }}
             </button>
         </div>
 
         @if (displayLinks().length === 0 && !isAddingLink()) {
-            <div class="text-center py-8 sm:py-12 px-4 bg-gray-50 rounded-lg">
+            <div class="text-center py-8 sm:py-12 px-4 bg-surface-50 dark:bg-surface-800 rounded-lg">
                 @if (searchTerm()) {
-                    <p class="mb-4 sm:mb-6 text-gray-600 text-base sm:text-lg">No links match your search
+                    <p class="mb-4 sm:mb-6 text-surface-600 dark:text-surface-300 text-base sm:text-lg">No links match
+                        your search
                         "{{ searchTerm() }}"</p>
                     <button
-                        class="px-4 py-2 bg-gray-200 border-none rounded text-gray-700 text-sm cursor-pointer hover:bg-gray-300"
+                        class="px-4 py-2 bg-surface-200 dark:bg-surface-700 border-none rounded text-surface-700 dark:text-surface-200 text-sm cursor-pointer hover:bg-surface-300 dark:hover:bg-surface-600"
                         (click)="clearSearch()">Clear Search</button>
                 } @else {
-                    <p class="mb-4 sm:mb-6 text-gray-600 text-base sm:text-lg">No links in this project yet. Add your
+                    <p class="mb-4 sm:mb-6 text-surface-600 dark:text-surface-300 text-base sm:text-lg">No links in this
+                        project yet. Add your
                         first link!</p>
                     <button
-                        class="px-4 py-2 bg-blue-400 text-white border-none rounded text-sm cursor-pointer hover:bg-blue-500"
+                        class="px-4 py-2 bg-primary text-primary-contrast border-none rounded text-sm cursor-pointer hover:bg-primary-emphasis"
                         (click)="toggleAddLink()">Add Link</button>
                 }
             </div>
@@ -42,8 +45,9 @@
             </div>
         }
     } @else {
-        <div class="text-center py-8 sm:py-12 px-4 bg-gray-50 rounded-lg">
-            <p class="text-gray-600 text-base sm:text-lg">Please create or select a project to start adding links.</p>
+        <div class="text-center py-8 sm:py-12 px-4 bg-surface-50 dark:bg-surface-800 rounded-lg">
+            <p class="text-surface-600 dark:text-surface-300 text-base sm:text-lg">Please create or select a project to
+                start adding links.</p>
         </div>
     }
 </div>

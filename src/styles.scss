@@ -4,6 +4,7 @@
 /* Import Ubuntu Mono font from Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap');
 @plugin "tailwindcss-primeui";
+@custom-variant dark (&:where(.my-app-dark, .my-app-dark *));
 
 
 /* Apply Ubuntu Mono as the global font */

@@ -17,6 +17,7 @@ export class SearchService {
     private readonly searchTermSignal = signal('');
 
     readonly searchTerm = this.searchTermSignal.asReadonly();
+    readonly searchHistory = this.linkStorage.searchHistory;
 
     readonly searchResults = computed(() => {
         const term = this.searchTerm().toLowerCase().trim();
@@ -67,5 +68,12 @@ export class SearchService {
 
     clearSearch(): void {
         this.searchTermSignal.set('');
+    }
+
+    recordSearchInHistory(): void {
+        const term = this.searchTerm().trim();
+        if (!term) return;
+
+        this.linkStorage.addSearchToHistory(term);
     }
 }

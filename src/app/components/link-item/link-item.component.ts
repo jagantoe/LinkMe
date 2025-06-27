@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
+import { ConfirmationService } from 'primeng/api';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { BaseLink, Link } from '../../models/link.model';
 import { LinkStorageService } from '../../services/link-storage.service';
+import { SearchService } from '../../services/search.service';
 import { SettingsService } from '../../services/settings.service';
 import { copyToClipboard } from '../../utils/clipboard.utils';
 import { MatchType } from '../../utils/search.utils';
@@ -11,19 +14,24 @@ import { LinkFormComponent } from '../link-form/link-form.component';
     selector: 'app-link-item',
     templateUrl: './link-item.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule, LinkFormComponent]
+    imports: [CommonModule, LinkFormComponent, ConfirmDialogModule]
 })
 export class LinkItemComponent {
     private readonly linkStorage = inject(LinkStorageService);
     private readonly settingsService = inject(SettingsService);
+    private readonly searchService = inject(SearchService);
+    private readonly confirmationService = inject(ConfirmationService);
+
     readonly link = input.required<Link>();
     readonly score = input<number>(0);
     readonly matchType = input<MatchType>('name');
     readonly showMatchType = input<boolean>(false);
-    readonly settings = this.settingsService.settings; readonly isEditing = signal(false);
+    readonly settings = this.settingsService.settings;
+    readonly isEditing = signal(false);
 
     copyToClipboard(text: string, element: HTMLElement): void {
         copyToClipboard(text, element);
+        this.searchService.recordSearchInHistory();
     }
 
     startEdit(): void {
@@ -35,7 +43,15 @@ export class LinkItemComponent {
     }
 
     deleteLink(): void {
-        this.linkStorage.deleteLink(this.link().id);
+        this.confirmationService.confirm({
+            message: `Are you sure you want to delete "${this.link().name}"?`,
+            header: 'Delete Confirmation',
+            icon: 'pi pi-exclamation-triangle',
+            acceptButtonStyleClass: 'p-button-danger',
+            accept: () => {
+                this.linkStorage.deleteLink(this.link().id);
+            }
+        });
     }
 
     saveEditedLink(formData: BaseLink): void {
@@ -48,5 +64,9 @@ export class LinkItemComponent {
 
         this.linkStorage.updateLink(updatedLink);
         this.isEditing.set(false);
+    }
+
+    recordOpenLinkInHistory(): void {
+        this.searchService.recordSearchInHistory();
     }
 }

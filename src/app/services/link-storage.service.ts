@@ -8,17 +8,21 @@ export class LinkStorageService {
     private readonly PROJECTS_KEY = 'linkme_projects';
     private readonly LINKS_KEY_PREFIX = 'linkme_links_';
     private readonly CURRENT_PROJECT_ID_KEY = 'linkme_current_project_id';
+    private readonly SEARCH_HISTORY_KEY = 'linkme_search_history';
 
     private readonly projectsSignal = signal<Project[]>([]);
     private readonly currentProjectSignal = signal<Project | null>(null);
     private readonly linksSignal = signal<Link[]>([]);
+    private readonly searchHistorySignal = signal<string[]>([]);
 
     readonly projects = this.projectsSignal.asReadonly();
     readonly currentProject = this.currentProjectSignal.asReadonly();
     readonly links = this.linksSignal.asReadonly();
+    readonly searchHistory = this.searchHistorySignal.asReadonly();
 
     constructor() {
         this.loadProjects();
+        this.loadSearchHistory();
 
         // Restore current project from storage if possible
         const savedProjectId = localStorage.getItem(this.CURRENT_PROJECT_ID_KEY);
@@ -174,5 +178,46 @@ export class LinkStorageService {
             links.filter(link => link.id !== linkId)
         );
         this.saveLinksForCurrentProject();
+    }
+
+    // Search history methods
+    private loadSearchHistory(): void {
+        const historyJson = localStorage.getItem(this.SEARCH_HISTORY_KEY);
+        if (historyJson) {
+            try {
+                const history: string[] = JSON.parse(historyJson);
+                this.searchHistorySignal.set(history);
+            } catch (e) {
+                console.error('Failed to parse search history from localStorage', e);
+                this.searchHistorySignal.set([]);
+            }
+        }
+    }
+
+    private saveSearchHistory(): void {
+        localStorage.setItem(this.SEARCH_HISTORY_KEY, JSON.stringify(this.searchHistory()));
+    }
+
+    /**
+     * Adds a search term to history
+     * Only adds non-empty terms, keeps last 5 unique terms
+     * @param term The search term to add to history
+     */
+    addSearchToHistory(term: string): void {
+        const trimmedTerm = term.trim();
+        if (!trimmedTerm) return;
+
+        // Get current history and remove the term if it exists (to avoid duplicates)
+        const currentHistory = this.searchHistorySignal();
+        const newHistory = currentHistory.filter(item => item !== trimmedTerm);
+
+        // Add the term to the beginning and limit to 5 items
+        newHistory.unshift(trimmedTerm);
+        if (newHistory.length > 5) {
+            newHistory.pop();
+        }
+
+        this.searchHistorySignal.set(newHistory);
+        this.saveSearchHistory();
     }
 }

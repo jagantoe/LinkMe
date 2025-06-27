@@ -9,26 +9,21 @@ import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DividerModule } from 'primeng/divider';
-import { TabsModule } from 'primeng/tabs';
 
 // Component Imports
 import { RouterLink } from '@angular/router';
-import { AppearanceSettingsComponent } from '../../components/settings/appearance-settings/appearance-settings.component';
-import { BehaviorSettingsComponent } from '../../components/settings/behavior-settings/behavior-settings.component';
 import { ProjectManagementComponent } from '../../components/settings/project-management/project-management.component';
 
 @Component({
     selector: 'app-settings',
     templateUrl: './settings.component.html',
-    changeDetection: ChangeDetectionStrategy.OnPush, imports: [
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [
         CommonModule,
         ButtonModule,
         CardModule,
         DividerModule,
         ConfirmDialogModule,
-        TabsModule,
-        AppearanceSettingsComponent,
-        BehaviorSettingsComponent,
         ProjectManagementComponent,
         RouterLink
     ],
