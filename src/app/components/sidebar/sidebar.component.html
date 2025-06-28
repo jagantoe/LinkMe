@@ -1,11 +1,14 @@
 <div class="h-full flex flex-col overflow-y-auto">
     <!-- App title - only show on desktop since mobile has it in the header -->
-    <h2 class="mb-6 text-xl md:text-2xl font-semibold text-surface-800 dark:text-surface-100 hidden md:block">LinkMe
+    <h2 class="mb-6 text-xl md:text-2xl font-semibold text-surface-800 dark:text-surface-100 hidden md:block">
+        {{ 'app.title' | transloco }}
     </h2>
 
     <div class="mb-6">
         <div class="flex justify-between items-center mb-2">
-            <h3 class="text-base md:text-lg font-medium text-surface-800 dark:text-surface-100">Projects</h3>
+            <h3 class="text-base md:text-lg font-medium text-surface-800 dark:text-surface-100">
+                {{ 'sidebar.projects' | transloco }}
+            </h3>
             <button
                 class="w-8 h-8 rounded-md flex items-center justify-center transition-colors bg-primary-100 dark:bg-primary-900 text-primary-600 dark:text-primary-300 hover:bg-primary-200 dark:hover:bg-primary-800"
                 (click)="showAddProjectDialog()">
@@ -22,8 +25,9 @@
                         class="text-sm whitespace-nowrap overflow-hidden text-ellipsis flex-1 text-surface-800 dark:text-surface-100">{{ project.name }}</span>
                 </div>
             } @empty {
-                <div class="text-surface-400 dark:text-surface-500 text-sm text-center py-4">No projects yet. Create
-                    your first project!</div>
+                <div class="text-surface-400 dark:text-surface-500 text-sm text-center py-4">
+                    {{ 'sidebar.noProjects' | transloco }}
+                </div>
             }
         </div>
     </div>
@@ -46,7 +50,7 @@
                 <i class="pi w-5 flex-shrink-0" [class]="settings().darkMode ? 'pi-moon' : 'pi-sun'"
                     [class.text-surface-600]="!settings().darkMode" [class.text-yellow-500]="!settings().darkMode"
                     [class.text-blue-300]="settings().darkMode"></i>
-                <span class="ml-1.5 text-surface-700 dark:text-surface-300">Dark Mode</span>
+                <span class="ml-1.5 text-surface-700 dark:text-surface-300">{{ 'sidebar.darkMode' | transloco }}</span>
             </div>
             <p-inputSwitch class="pt-2" [ngModel]="settings().darkMode" (ngModelChange)="toggleDarkMode($event)" />
         </div>
@@ -57,7 +61,7 @@
         <button
             class="flex items-center justify-center w-full p-2 text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700 rounded cursor-pointer"
             routerLink="settings" (click)="onMobileMenuClick()"> <i class="pi pi-cog mr-2"></i>
-            <span>Settings</span>
+            <span>{{ 'sidebar.settings' | transloco }}</span>
         </button>
     </div>
 </div>

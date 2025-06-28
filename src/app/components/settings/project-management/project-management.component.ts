@@ -1,15 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { TranslocoModule } from '@jsverse/transloco';
 import { ConfirmationService } from 'primeng/api';
-import { BaseProject, Project } from '../../../models/link.model';
-import { DialogService } from '../../../services/dialog.service';
-import { ProjectService } from '../../../services/project.service';
-
-// PrimeNG Imports
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TableModule } from 'primeng/table';
+import { BaseProject, Project } from '../../../models/link.model';
+import { DialogService } from '../../../services/dialog.service';
+import { ProjectService } from '../../../services/project.service';
 
 @Component({
     selector: 'app-project-management',
@@ -18,6 +17,7 @@ import { TableModule } from 'primeng/table';
     imports: [
         CommonModule,
         ButtonModule,
+        TranslocoModule,
         CardModule,
         TableModule,
         ConfirmDialogModule
@@ -35,13 +35,13 @@ export class ProjectManagementComponent {
     }
 
     handleAddProject(): void {
-        this.dialogService.openProjectDialog('Create Project', null, (projectData) => {
+        this.dialogService.openProjectDialog('project.form.addTitle', null, (projectData) => {
             this.saveProject(projectData);
         });
     }
 
     handleEditProject(project: Project): void {
-        this.dialogService.openProjectDialog('Edit Project', project, (projectData) => {
+        this.dialogService.openProjectDialog('project.form.editTitle', project, (projectData) => {
             this.saveEditedProject(project, projectData);
         });
     }

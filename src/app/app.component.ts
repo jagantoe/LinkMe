@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { TranslocoModule } from '@jsverse/transloco';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
@@ -15,14 +16,13 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
     SidebarComponent,
     ToastModule,
     ConfirmDialogModule,
-    ProjectFormDialogComponent
+    ProjectFormDialogComponent,
+    TranslocoModule
   ],
   providers: [ConfirmationService],
   templateUrl: './app.component.html'
 })
 export class App {
-  protected title = 'LinkMe';
-
   // Sidebar state signal
   readonly sidebarVisible = signal(false);
 

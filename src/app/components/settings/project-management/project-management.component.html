@@ -1,33 +1,39 @@
 <div class="mb-4">
     <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-medium text-surface-800 dark:text-surface-100">Your Projects</h3>
-        <p-button icon="pi pi-plus" label="New Project" severity="primary" (onClick)="handleAddProject()"></p-button>
+        <h3 class="text-xl font-medium text-surface-800 dark:text-surface-100">
+            {{ 'project.management.title' | transloco }}</h3>
+        <p-button icon="pi pi-plus" [label]="'project.management.newProject' | transloco" severity="primary"
+            (onClick)="handleAddProject()"></p-button>
     </div>
 
     @if (projects().length === 0) {
         <div
             class="text-center py-6 bg-surface-50 dark:bg-surface-800 rounded-lg border border-surface-200 dark:border-surface-700">
             <i class="pi pi-folder-open text-5xl mb-3 text-primary"></i>
-            <h4 class="font-medium mb-2 text-surface-800 dark:text-surface-100">No Projects Yet</h4>
-            <p class="text-surface-600 dark:text-surface-400 mb-4">Create your first project to organize your links</p>
-            <p-button label="Create Project" icon="pi pi-plus" (onClick)="handleAddProject()"></p-button>
+            <h4 class="font-medium mb-2 text-surface-800 dark:text-surface-100">
+                {{ 'project.management.noProjects' | transloco }}</h4>
+            <p class="text-surface-600 dark:text-surface-400 mb-4">
+                {{ 'project.management.noProjectsDescription' | transloco }}</p>
+            <p-button [label]="'project.management.createProject' | transloco" icon="pi pi-plus"
+                (onClick)="handleAddProject()"></p-button>
         </div>
     } @else {
         <p-table [value]="projects()" styleClass="p-datatable-sm" [tableStyle]="{ 'min-width': '50rem' }"
             [paginator]="projects().length > 10" [rows]="10" [rowsPerPageOptions]="[5,10,25]">
             <ng-template pTemplate="header">
                 <tr>
-                    <th>Name</th>
-                    <th class="hidden md:table-cell">Description</th>
-                    <th>Created</th>
-                    <th>Last Updated</th>
-                    <th style="width: 120px">Actions</th>
+                    <th>{{ 'project.management.table.name' | transloco }}</th>
+                    <th class="hidden md:table-cell">{{ 'project.management.table.description' | transloco }}</th>
+                    <th>{{ 'project.management.table.created' | transloco }}</th>
+                    <th>{{ 'project.management.table.lastUpdated' | transloco }}</th>
+                    <th style="width: 120px">{{ 'project.management.table.actions' | transloco }}</th>
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-project>
                 <tr>
                     <td>{{ project.name }}</td>
-                    <td class="hidden md:table-cell">{{ project.description || 'No description' }}</td>
+                    <td class="hidden md:table-cell">{{ project.description || ('common.noDescription' | transloco) }}
+                    </td>
                     <td>{{ formatDate(project.createdAt) }}</td>
                     <td>{{ formatDate(project.updatedAt) }}</td>
                     <td>

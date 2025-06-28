@@ -1,18 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { NotificationService } from '../../services/notification.service';
-import { SettingsService } from '../../services/settings.service';
-
-// PrimeNG Imports
+import { RouterLink } from '@angular/router';
+import { TranslocoModule } from '@jsverse/transloco';
 import { ConfirmationService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DividerModule } from 'primeng/divider';
-
-// Component Imports
-import { RouterLink } from '@angular/router';
 import { ProjectManagementComponent } from '../../components/settings/project-management/project-management.component';
+import { NotificationService } from '../../services/notification.service';
+import { SettingsService } from '../../services/settings.service';
 
 @Component({
     selector: 'app-settings',
@@ -25,7 +22,8 @@ import { ProjectManagementComponent } from '../../components/settings/project-ma
         DividerModule,
         ConfirmDialogModule,
         ProjectManagementComponent,
-        RouterLink
+        RouterLink,
+        TranslocoModule
     ],
 })
 export class SettingsComponent {

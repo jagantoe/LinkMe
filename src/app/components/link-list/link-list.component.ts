@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslocoModule } from '@jsverse/transloco';
 import { BaseLink } from '../../models/link.model';
 import { LinkStorageService } from '../../services/link-storage.service';
 import { SearchService } from '../../services/search.service';
@@ -13,7 +14,7 @@ import { LinkItemComponent } from '../link-item/link-item.component';
     selector: 'app-link-list',
     templateUrl: './link-list.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule, FormsModule, LinkItemComponent, LinkFormComponent]
+    imports: [CommonModule, FormsModule, LinkItemComponent, LinkFormComponent, TranslocoModule]
 })
 export class LinkListComponent {
     private readonly linkStorage = inject(LinkStorageService);

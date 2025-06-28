@@ -2,30 +2,31 @@
     @if (currentProject()) {
         <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 mb-6">
             <h2 class="text-xl sm:text-2xl font-medium text-surface-800 dark:text-surface-100">
-                {{ searchTerm() ? 'Search Results' : 'All Links' }}</h2>
+                {{ searchTerm() ? ('link.list.searchResults' | transloco) : ('link.list.allLinks' | transloco) }}
+            </h2>
             <button
                 class="px-4 py-2 bg-primary text-primary-contrast border-none rounded text-sm cursor-pointer transition-colors hover:bg-primary-emphasis w-full sm:w-auto"
                 (click)="toggleAddLink()">
-                {{ isAddingLink() ? 'Cancel' : 'Add Link' }}
+                {{ isAddingLink() ? ('common.cancel' | transloco) : ('link.list.addLink' | transloco) }}
             </button>
         </div>
 
         @if (displayLinks().length === 0 && !isAddingLink()) {
             <div class="text-center py-8 sm:py-12 px-4 bg-surface-50 dark:bg-surface-800 rounded-lg">
                 @if (searchTerm()) {
-                    <p class="mb-4 sm:mb-6 text-surface-600 dark:text-surface-300 text-base sm:text-lg">No links match
-                        your search
-                        "{{ searchTerm() }}"</p>
+                    <p class="mb-4 sm:mb-6 text-surface-600 dark:text-surface-300 text-base sm:text-lg">
+                        {{ 'link.list.noLinksMatch' | transloco }} "{{ searchTerm() }}"
+                    </p>
                     <button
                         class="px-4 py-2 bg-surface-200 dark:bg-surface-700 border-none rounded text-surface-700 dark:text-surface-200 text-sm cursor-pointer hover:bg-surface-300 dark:hover:bg-surface-600"
-                        (click)="clearSearch()">Clear Search</button>
+                        (click)="clearSearch()">{{ 'link.list.clearSearch' | transloco }}</button>
                 } @else {
-                    <p class="mb-4 sm:mb-6 text-surface-600 dark:text-surface-300 text-base sm:text-lg">No links in this
-                        project yet. Add your
-                        first link!</p>
+                    <p class="mb-4 sm:mb-6 text-surface-600 dark:text-surface-300 text-base sm:text-lg">
+                        {{ 'link.list.noLinksYet' | transloco }}
+                    </p>
                     <button
                         class="px-4 py-2 bg-primary text-primary-contrast border-none rounded text-sm cursor-pointer hover:bg-primary-emphasis"
-                        (click)="toggleAddLink()">Add Link</button>
+                        (click)="toggleAddLink()">{{ 'link.list.addLink' | transloco }}</button>
                 }
             </div>
         } @else {
@@ -33,7 +34,7 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
                 <!-- Add Link Form (first position) -->
                 @if (isAddingLink()) {
-                    <app-link-form formTitle="Add New Link" (formSubmit)="addNewLink($event)"
+                    <app-link-form formTitle="link.form.addTitle" (formSubmit)="addNewLink($event)"
                         (formCancel)="toggleAddLink()" />
                 }
 
@@ -46,8 +47,9 @@
         }
     } @else {
         <div class="text-center py-8 sm:py-12 px-4 bg-surface-50 dark:bg-surface-800 rounded-lg">
-            <p class="text-surface-600 dark:text-surface-300 text-base sm:text-lg">Please create or select a project to
-                start adding links.</p>
+            <p class="text-surface-600 dark:text-surface-300 text-base sm:text-lg">
+                {{ 'link.list.selectProject' | transloco }}
+            </p>
         </div>
     }
 </div>

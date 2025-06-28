@@ -1,20 +1,25 @@
-<p-dialog [visible]="visible()" [header]="dialogTitle()" [modal]="true" [draggable]="false" [resizable]="false"
-    [style]="{ width: '450px' }" (visibleChange)="closeDialog()">
+<p-dialog [visible]="visible()" [header]="dialogTitle() | transloco" [modal]="true" [draggable]="false"
+    [resizable]="false" [style]="{ width: '450px' }" (visibleChange)="closeDialog()">
     <div class="flex flex-col gap-4 p-4">
         <div class="field">
-            <label for="name" class="block mb-2 text-surface-800 dark:text-surface-100">Project Name*</label>
-            <input id="name" type="text" pInputText [(ngModel)]="name" class="w-full" placeholder="Enter project name">
+            <label for="name"
+                class="block mb-2 text-surface-800 dark:text-surface-100">{{ 'project.form.name' | transloco }}</label>
+            <input id="name" type="text" pInputText [(ngModel)]="name" class="w-full"
+                [placeholder]="'project.form.namePlaceholder' | transloco">
         </div>
         <div class="field">
-            <label for="description" class="block mb-2 text-surface-800 dark:text-surface-100">Description</label>
+            <label for="description"
+                class="block mb-2 text-surface-800 dark:text-surface-100">{{ 'project.form.description' | transloco }}</label>
             <textarea id="description" pTextarea [(ngModel)]="description" class="w-full" rows="5"
-                placeholder="Enter project description (optional)"></textarea>
+                [placeholder]="'project.form.descriptionPlaceholder' | transloco"></textarea>
         </div>
     </div>
     <ng-template pTemplate="footer">
         <div class="flex justify-end gap-2">
-            <p-button label="Cancel" icon="pi pi-times" (onClick)="closeDialog()" styleClass="p-button-text" />
-            <p-button label="Save" icon="pi pi-check" (onClick)="onSave()" [disabled]="!isFormValid()" />
+            <p-button [label]="'common.cancel' | transloco" icon="pi pi-times" (onClick)="closeDialog()"
+                styleClass="p-button-text" />
+            <p-button [label]="'common.save' | transloco" icon="pi pi-check" (onClick)="onSave()"
+                [disabled]="!isFormValid()" />
         </div>
     </ng-template>
 </p-dialog>

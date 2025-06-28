@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, effect, inject, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslocoModule } from '@jsverse/transloco';
 import { BaseProject } from '../../models/link.model';
 import { DialogService } from '../../services/dialog.service';
 
@@ -18,6 +19,7 @@ import { TextareaModule } from 'primeng/textarea';
         DialogModule,
         InputTextModule,
         TextareaModule,
+        TranslocoModule,
         ButtonModule
     ]
 })
@@ -27,7 +29,11 @@ export class ProjectFormDialogComponent {
     readonly visible = this.dialogService.projectDialogVisible;
     readonly dialogData = this.dialogService.projectDialogData;
 
-    readonly dialogTitle = computed(() => this.dialogData()?.title || 'Project');
+    readonly dialogTitle = computed(() =>
+        this.isEditMode()
+            ? 'project.form.editTitle'
+            : 'project.form.addTitle'
+    );
     readonly isEditMode = computed(() => !!this.dialogData()?.project);
 
     // Form input signals - writable for two-way binding with ngModel

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, input, signal } from '@angular/core';
+import { TranslocoModule } from '@jsverse/transloco';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { BaseLink, Link } from '../../models/link.model';
@@ -14,7 +15,7 @@ import { LinkFormComponent } from '../link-form/link-form.component';
     selector: 'app-link-item',
     templateUrl: './link-item.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule, LinkFormComponent, ConfirmDialogModule]
+    imports: [CommonModule, LinkFormComponent, ConfirmDialogModule, TranslocoModule]
 })
 export class LinkItemComponent {
     private readonly linkStorage = inject(LinkStorageService);

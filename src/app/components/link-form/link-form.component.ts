@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, effect, input, output, signal, WritableSignal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslocoModule } from '@jsverse/transloco';
 import { BaseLink, Link } from '../../models/link.model';
 import { Tags } from '../../utils/tags.utils';
 
@@ -8,7 +9,7 @@ import { Tags } from '../../utils/tags.utils';
     selector: 'app-link-form',
     templateUrl: './link-form.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule, FormsModule]
+    imports: [CommonModule, FormsModule, TranslocoModule]
 })
 export class LinkFormComponent {
     readonly formTitle = input.required<string>();

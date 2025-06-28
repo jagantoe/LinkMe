@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { TranslocoModule } from '@jsverse/transloco';
 import { BaseProject, Project } from '../../models/link.model';
 import { DialogService } from '../../services/dialog.service';
 import { ProjectService } from '../../services/project.service';
@@ -15,7 +16,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     selector: 'app-sidebar',
     templateUrl: './sidebar.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule, RouterLink, ButtonModule, InputSwitchModule, FormsModule],
+    imports: [CommonModule, RouterLink, ButtonModule, InputSwitchModule, FormsModule, TranslocoModule],
 })
 export class SidebarComponent {
     private readonly projectService = inject(ProjectService);
@@ -31,7 +32,7 @@ export class SidebarComponent {
 
     showAddProjectDialog(): void {
         this.dialogService.openProjectDialog(
-            'Add New Project',
+            'project.form.addTitle',
             null,
             (projectData) => this.addProject(projectData)
         );

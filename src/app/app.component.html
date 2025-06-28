@@ -6,7 +6,7 @@
         class="flex items-center justify-center w-10 h-10 rounded-md hover:bg-blue-500 transition-colors mr-3">
         <i class="pi" [class]="sidebarVisible() ? 'pi-times' : 'pi-bars'"></i>
       </button>
-      <h1 class="text-xl font-semibold">LinkMe</h1>
+      <h1 class="text-xl font-semibold">{{ 'app.title' | transloco }}</h1>
     </div>
     <div class="flex items-center">
       <button routerLink="/settings"

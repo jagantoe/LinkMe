@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { TranslocoModule } from '@jsverse/transloco';
 import { InputTextModule } from 'primeng/inputtext';
 import { ClearOnEscapeDirective } from '../../directives/clear-on-escape.directive';
 import { KeyboardFocusDirective } from '../../directives/keyboard-focus.directive';
@@ -11,7 +12,7 @@ import { SettingsService } from '../../services/settings.service';
     selector: 'app-search-bar',
     templateUrl: './search-bar.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [CommonModule, FormsModule, InputTextModule, ClearOnEscapeDirective, KeyboardFocusDirective]
+    imports: [CommonModule, FormsModule, InputTextModule, ClearOnEscapeDirective, KeyboardFocusDirective, TranslocoModule]
 })
 export class SearchBarComponent {
     private readonly searchService = inject(SearchService);
