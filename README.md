@@ -1,4 +1,4 @@
-# LinkMe
+# [LinkMe](https://jagantoe.github.io/LinkMe/)
 
 A modern, lightweight bookmark manager for organizing, searching, and categorizing your favorite web links across projects. Built with privacy in mind - all your data is stored exclusively in your browser's localStorage.
 
