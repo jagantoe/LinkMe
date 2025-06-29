@@ -9,9 +9,9 @@
       <h1 class="text-xl font-semibold">{{ 'app.title' | transloco }}</h1>
     </div>
     <div class="flex items-center">
-      <button routerLink="/settings"
+      <button (click)="toggleSettings()"
         class="flex items-center justify-center w-10 h-10 rounded-md hover:bg-blue-500 transition-colors">
-        <i class="pi pi-cog"></i>
+        <i class="pi" [class]="currentPage() === 'settings' ? 'pi-home' : 'pi-cog'"></i>
       </button>
     </div>
   </div>
@@ -30,7 +30,11 @@
 
     <!-- Main content -->
     <div class="flex-1 p-6 overflow-y-auto md:ml-64">
-      <router-outlet />
+      @if (currentPage() === 'settings') {
+        <app-settings />
+      } @else {
+        <app-home />
+      }
     </div>
   </div>
 </div>

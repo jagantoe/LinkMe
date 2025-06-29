@@ -1,3 +1,5 @@
+export type AppPage = 'home' | 'settings';
+
 export interface AppSettings {
     darkMode: boolean;
 }

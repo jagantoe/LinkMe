@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
 import { TranslocoModule } from '@jsverse/transloco';
 import { ConfirmationService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
@@ -22,7 +21,6 @@ import { SettingsService } from '../../services/settings.service';
         DividerModule,
         ConfirmDialogModule,
         ProjectManagementComponent,
-        RouterLink,
         TranslocoModule
     ],
 })
@@ -41,5 +39,9 @@ export class SettingsComponent {
                 this.notificationService.showSuccess('Settings have been reset to defaults');
             }
         });
+    }
+
+    navigateToHome(): void {
+        this.settingsService.navigateTo('home');
     }
 }

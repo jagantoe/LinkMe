@@ -20,7 +20,7 @@
             @for (project of projects(); track project.id) {
                 <div class="flex justify-between items-center p-2.5 rounded mb-1 cursor-pointer transition-colors"
                     [class]="currentProject()?.id === project.id ? 'bg-primary-50 dark:bg-primary-900 border-l-3 border-l-primary-400 dark:border-l-primary-600' : 'hover:bg-surface-100 dark:hover:bg-surface-700'"
-                    (click)="selectProject(project); onMobileProjectSelect()" routerLink="home">
+                    (click)="selectProject(project); onMobileProjectSelect()">
                     <span
                         class="text-sm whitespace-nowrap overflow-hidden text-ellipsis flex-1 text-surface-800 dark:text-surface-100">{{ project.name }}</span>
                 </div>
@@ -58,10 +58,18 @@
 
     <!-- Hide settings button on mobile since it's now in the header -->
     <div class="border-t border-surface-200 dark:border-surface-700 hidden md:block">
-        <button
-            class="flex items-center justify-center w-full p-2 text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700 rounded cursor-pointer"
-            routerLink="settings" (click)="onMobileMenuClick()"> <i class="pi pi-cog mr-2"></i>
-            <span>{{ 'sidebar.settings' | transloco }}</span>
-        </button>
+        @if (currentPage() === 'settings') {
+            <button
+                class="flex items-center justify-center w-full p-2 text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700 rounded cursor-pointer"
+                (click)="navigateToHome()"> <i class="pi pi-home mr-2"></i>
+                <span>{{ 'sidebar.home' | transloco }}</span>
+            </button>
+        } @else {
+            <button
+                class="flex items-center justify-center w-full p-2 text-surface-600 dark:text-surface-300 hover:bg-surface-100 dark:hover:bg-surface-700 rounded cursor-pointer"
+                (click)="navigateToSettings()"> <i class="pi pi-cog mr-2"></i>
+                <span>{{ 'sidebar.settings' | transloco }}</span>
+            </button>
+        }
     </div>
 </div>

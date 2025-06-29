@@ -2,8 +2,9 @@
     <!-- Header with back button and title -->
     <div class="flex items-center justify-between mb-4 sm:mb-6">
         <h2 class="text-xl sm:text-2xl font-semibold text-surface-800 dark:text-surface-100">
-            {{ 'settings.title' | transloco }}</h2>
-        <p-button icon="pi pi-arrow-left" [label]="'common.back' | transloco" routerLink="/home"
+            {{ 'settings.title' | transloco }}
+        </h2>
+        <p-button icon="pi pi-arrow-left" [label]="'common.back' | transloco" (onClick)="navigateToHome()"
             severity="secondary"></p-button>
     </div>
 

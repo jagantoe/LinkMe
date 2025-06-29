@@ -1,5 +1,5 @@
 import { effect, Injectable, signal } from '@angular/core';
-import { AppSettings, DEFAULT_SETTINGS } from '../models/settings.model';
+import { AppPage, AppSettings, DEFAULT_SETTINGS } from '../models/settings.model';
 
 @Injectable({
     providedIn: 'root'
@@ -7,8 +7,10 @@ import { AppSettings, DEFAULT_SETTINGS } from '../models/settings.model';
 export class SettingsService {
     private readonly SETTINGS_KEY = 'linkme_settings';
     private readonly settingsSignal = signal<AppSettings>(DEFAULT_SETTINGS);
+    private readonly currentPageSignal = signal<AppPage>('home');
 
     readonly settings = this.settingsSignal.asReadonly();
+    readonly currentPage = this.currentPageSignal.asReadonly();
 
     constructor() {
         this.loadSettings();
@@ -50,5 +52,9 @@ export class SettingsService {
 
     resetSettings(): void {
         this.settingsSignal.set(DEFAULT_SETTINGS);
+    }
+
+    navigateTo(page: AppPage): void {
+        this.currentPageSignal.set(page);
     }
 }
