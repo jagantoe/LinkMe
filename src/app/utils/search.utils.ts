@@ -60,3 +60,55 @@ export function fuzzyMatch(query: string, target: string): number {
     // Return 0 if similarity is below threshold
     return similarity > 0.6 ? similarity : 0;
 }
+
+/**
+ * Performs a multi-word fuzzy match between a query and a target string
+ * The query is split by spaces and each word is matched separately
+ * @param query The multi-word search term
+ * @param target The string to search in
+ * @returns A score between 0 and 1, where 1 is a perfect match and 0 is no match
+ */
+export function multiWordFuzzyMatch(query: string, target: string): number {
+    // If query is empty or target is empty, return 0
+    if (!query.trim() || !target.trim()) {
+        return 0;
+    }
+
+    // If the exact query is found in the target, return 1 (perfect match)
+    if (target.includes(query)) {
+        return 1.0;
+    }
+
+    // Split the query into words
+    const words = query.toLowerCase().split(/\s+/).filter(word => word.length > 0);
+
+    // If no valid words, return 0
+    if (words.length === 0) {
+        return 0;
+    }
+
+    // Match each word and calculate the average score
+    let totalScore = 0;
+    let matchedWords = 0;
+
+    for (const word of words) {
+        const score = fuzzyMatch(word, target.toLowerCase());
+        if (score > 0) {
+            totalScore += score;
+            matchedWords++;
+        }
+    }
+
+    // If no words matched, return 0
+    if (matchedWords === 0) {
+        return 0;
+    }
+
+    // Calculate average score weighted by the number of matched words
+    // This rewards matching more words from the query
+    const avgScore = totalScore / words.length;
+    const matchRatio = matchedWords / words.length;
+
+    // Boost score based on the proportion of words that matched
+    return avgScore * (0.5 + 0.5 * matchRatio);
+}

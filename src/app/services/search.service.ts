@@ -1,6 +1,6 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { Link } from '../models/link.model';
-import { fuzzyMatch, MatchType } from '../utils/search.utils';
+import { MatchType, multiWordFuzzyMatch } from '../utils/search.utils';
 import { LinkStorageService } from './link-storage.service';
 
 export interface SearchResult {
@@ -27,13 +27,13 @@ export class SearchService {
         const results: SearchResult[] = [];
         for (const link of links) {
             // Score links - higher is better
-            let nameScore = fuzzyMatch(term, link.name.toLowerCase());
+            let nameScore = multiWordFuzzyMatch(term, link.name.toLowerCase());
             let tagScore = 0;
             let hasTagMatch = false;
 
             // Check tags with lower priority
             for (const tag of link.tags) {
-                const tagMatchScore = fuzzyMatch(term, tag.toLowerCase());
+                const tagMatchScore = multiWordFuzzyMatch(term, tag.toLowerCase());
                 if (tagMatchScore > 0) {
                     hasTagMatch = true;
                     tagScore = Math.max(tagScore, tagMatchScore * 0.7); // Lower priority for tag matches
